@@ -1,0 +1,39 @@
+<h1><%= @theme.title %></h1>
+<p><%= @theme.description %></p>
+
+<section
+  class="image-viewer"
+  data-image-viewer="true"
+  data-theme-id="<%= @theme.id %>"
+  data-images-endpoint="<%= api_theme_images_path(@theme, format: :json) %>"
+  data-evaluation-endpoint-template="<%= api_image_evaluations_path(:image_id).gsub(\"%3Aimage_id\", \":image_id\") %>"
+  data-saved-message="<%= t('evaluations.saved') %>"
+>
+  <div class="image-viewer__image">
+    <h2 data-image-title></h2>
+    <img data-image-tag src="" alt="" />
+  </div>
+
+  <div class="image-viewer__controls">
+    <button type="button" class="btn" data-prev-image>&laquo; <%= t("images.prev") %></button>
+    <button type="button" class="btn" data-next-image><%= t("images.next") %> &raquo;</button>
+  </div>
+
+  <div class="image-viewer__evaluation">
+    <h3><%= t("evaluations.title") %></h3>
+
+    <label>
+      <%= t("evaluations.score") %>
+      <input type="number" min="1" max="5" value="3" data-evaluation-score>
+    </label>
+
+    <label>
+      <%= t("evaluations.comment") %>
+      <textarea data-evaluation-comment rows="3"></textarea>
+    </label>
+
+    <button type="button" class="btn btn--primary" data-save-evaluation>
+      <%= t("evaluations.save") %>
+    </button>
+  </div>
+</section>

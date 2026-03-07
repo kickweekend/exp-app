@@ -1,0 +1,31 @@
+ru:
+  auth:
+    sign_in: "Вход"
+    sign_out: "Выход"
+    sign_up: "Регистрация"
+    name: "Имя"
+    email: "E-mail"
+    password: "Пароль"
+    password_confirmation: "Подтверждение пароля"
+    signed_in: "Вы успешно вошли в систему."
+    signed_out: "Вы вышли из системы."
+    signed_up: "Регистрация прошла успешно."
+    invalid_credentials: "Неверный e-mail или пароль."
+    please_sign_in: "Пожалуйста, войдите в систему."
+
+  themes:
+    index:
+      title: "Доступные темы"
+      open: "Открыть"
+
+  images:
+    prev: "Предыдущее"
+    next: "Следующее"
+
+  evaluations:
+    title: "Ваша экспертная оценка"
+    score: "Оценка (1-5)"
+    comment: "Комментарий"
+    save: "Сохранить оценку"
+    saved: "Оценка сохранена."
+

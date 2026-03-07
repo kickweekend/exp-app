@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Exp App" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Exp App">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app %>
+  </head>
+
+  <body>
+    <header class="navbar">
+      <div class="navbar__brand">
+        <%= link_to "Experteese Lite", themes_path %>
+      </div>
+      <nav class="navbar__nav">
+        <%= link_to "RU", url_for(locale: :ru), class: (I18n.locale == :ru ? "active" : "") %>
+        <%= link_to "EN", url_for(locale: :en), class: (I18n.locale == :en ? "active" : "") %>
+
+        <% if user_signed_in? %>
+          <span class="navbar__user"><%= current_user.name %></span>
+          <%= button_to t("auth.sign_out"), session_path, method: :delete, class: "navbar__logout" %>
+        <% else %>
+          <%= link_to t("auth.sign_in"), new_session_path, class: "navbar__link" %>
+          <%= link_to t("auth.sign_up"), new_registration_path, class: "navbar__link" %>
+        <% end %>
+      </nav>
+    </header>
+
+    <main class="container">
+      <% if notice %>
+        <div class="flash flash--notice"><%= notice %></div>
+      <% end %>
+      <% if alert %>
+        <div class="flash flash--alert"><%= alert %></div>
+      <% end %>
+
+      <%= yield %>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
