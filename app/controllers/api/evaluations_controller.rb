@@ -9,7 +9,11 @@ module Api
       evaluation.assign_attributes(evaluation_params)
 
       if evaluation.save
-        render json: { status: "ok" }
+        render json: {
+          status: "ok",
+          average_score: image.average_score,
+          user_score: evaluation.score
+        }
       else
         render json: { status: "error", errors: evaluation.errors.full_messages }, status: :unprocessable_entity
       end

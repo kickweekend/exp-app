@@ -32,6 +32,7 @@
         <%= link_to "EN", url_for(locale: :en), class: (I18n.locale == :en ? "active" : "") %>
 
         <% if user_signed_in? %>
+          <%= link_to t("auth.profile"), profile_path, class: "navbar__link" %>
           <span class="navbar__user"><%= current_user.name %></span>
           <%= button_to t("auth.sign_out"), session_path, method: :delete, class: "navbar__logout" %>
         <% else %>

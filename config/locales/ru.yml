@@ -13,6 +13,13 @@ ru:
     invalid_credentials: "Неверный e-mail или пароль."
     please_sign_in: "Пожалуйста, войдите в систему."
 
+  profile:
+    title: "Ваш профиль"
+    subtitle: "Картинки, которые вы оценили, и ваши оценки."
+    theme: "Тема"
+    your_score: "Ваша оценка"
+    open_theme: "Открыть тему"
+
   themes:
     index:
       title: "Доступные темы"
@@ -28,4 +35,8 @@ ru:
     comment: "Комментарий"
     save: "Сохранить оценку"
     saved: "Оценка сохранена."
+    average: "Средняя оценка"
+    your_score: "Ваша оценка"
+    no_average: "Пока нет оценок"
+    no_user_score: "Вы ещё не оценили"
 

@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const imageTitleEl = document.querySelector("[data-image-title]");
   const imageTagEl = document.querySelector("[data-image-tag]");
+  const imageAverageEl = document.querySelector("[data-image-average]");
+  const imageUserScoreEl = document.querySelector("[data-image-user-score]");
   const prevBtn = document.querySelector("[data-prev-image]");
   const nextBtn = document.querySelector("[data-next-image]");
   const scoreInput = document.querySelector("[data-evaluation-score]");
@@ -26,6 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
     imageTitleEl.textContent = img.title;
     imageTagEl.src = img.image_url;
     imageTagEl.alt = img.title;
+
+    if (imageAverageEl) {
+      imageAverageEl.textContent = img.average_score
+        ? img.average_score.toFixed(1)
+        : imageAverageEl.dataset.empty;
+    }
+
+    if (imageUserScoreEl) {
+      imageUserScoreEl.textContent = img.user_score || imageUserScoreEl.dataset.empty;
+    }
   }
 
   function loadImages() {
@@ -66,7 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }),
     })
       .then((response) => response.json())
-      .then(() => {
+      .then((data) => {
+        if (imageAverageEl && typeof data.average_score === "number") {
+          imageAverageEl.textContent = data.average_score.toFixed(1);
+        }
+
+        if (imageUserScoreEl && typeof data.user_score === "number") {
+          imageUserScoreEl.textContent = data.user_score;
+        }
+
         alert(imageContainer.dataset.savedMessage || "Оценка сохранена");
       })
       .catch((error) => {

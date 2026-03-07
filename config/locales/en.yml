@@ -44,6 +44,13 @@ en:
     invalid_credentials: "Invalid email or password."
     please_sign_in: "Please sign in to continue."
 
+  profile:
+    title: "Your profile"
+    subtitle: "Images you have evaluated and your scores."
+    theme: "Theme"
+    your_score: "Your score"
+    open_theme: "Open theme"
+
   themes:
     index:
       title: "Available themes"
@@ -59,3 +66,7 @@ en:
     comment: "Comment"
     save: "Save evaluation"
     saved: "Evaluation saved successfully."
+    average: "Average score"
+    your_score: "Your score"
+    no_average: "No ratings yet"
+    no_user_score: "You have not rated yet"

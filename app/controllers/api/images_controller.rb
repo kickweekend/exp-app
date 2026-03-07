@@ -8,7 +8,15 @@ module Api
       images = theme.images.order(:id)
 
       render json: {
-        images: images.as_json(only: %i[id title image_url])
+        images: images.map { |image|
+          {
+            id: image.id,
+            title: image.title,
+            image_url: image.image_url,
+            average_score: image.average_score,
+            user_score: image.evaluations.find_by(user: current_user)&.score
+          }
+        }
       }
     end
   end

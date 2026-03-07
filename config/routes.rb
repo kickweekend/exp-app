@@ -4,6 +4,9 @@ Rails.application.routes.draw do
     resources :registrations, only: %i[new create]
     resource :session, only: %i[new create destroy]
 
+    # Профиль текущего пользователя.
+    resource :profile, only: %i[show], controller: :users
+
     # Основные ресурсы предметной области.
     resources :themes, only: %i[index show] do
       resources :images, only: %i[show]
