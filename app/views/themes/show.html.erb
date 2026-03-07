@@ -6,7 +6,7 @@
   data-image-viewer="true"
   data-theme-id="<%= @theme.id %>"
   data-images-endpoint="<%= api_theme_images_path(@theme, format: :json) %>"
-  data-evaluation-endpoint-template="<%= api_image_evaluations_path(:image_id).gsub(\"%3Aimage_id\", \":image_id\") %>"
+  data-evaluation-endpoint-template="<%= api_image_evaluations_path(':image_id').gsub('%3Aimage_id', ':image_id') %>"
   data-saved-message="<%= t('evaluations.saved') %>"
 >
   <div class="image-viewer__image">

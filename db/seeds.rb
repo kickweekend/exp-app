@@ -49,17 +49,24 @@ themes_data.each_with_index do |theme_data, theme_index|
   puts "  Тема: #{theme.title}"
 
   images_per_theme.times do |i|
-    # Используем бесплатный источник случайных изображений Unsplash.
-    # Параметр sig делает URL детерминированным для конкретного изображения,
-    # чтобы при повторных сеансах картинки не «прыгали».
+    # Используем ЛОКАЛЬНЫЕ файлы изображений из каталога public/images.
+    # Чтобы не хранить сотни разных файлов, мы переиспользуем ограниченный
+    # набор названий, например:
+    #   /images/city-1.jpg, /images/city-2.jpg, ... /images/city-5.jpg
+    #   /images/nature-1.jpg, ... и т.д.
+    #
+    # Вам достаточно положить по 5 файлов на тему в public/images,
+    # с указанными именами. В базе при этом будет 25 записей на тему.
     image_number = theme_index * images_per_theme + i + 1
-    image_url = "https://source.unsplash.com/random/800x600?#{theme_data[:keyword]}&sig=#{image_number}"
+    physical_index = (i % 5) + 1
+    image_url = "/images/#{theme_data[:keyword]}-#{physical_index}.webp"
 
-    Image.find_or_create_by!(
+    image = Image.find_or_initialize_by(
       theme: theme,
-      title: "#{theme.title} ##{image_number}",
-      image_url: image_url
+      title: "#{theme.title} ##{image_number}"
     )
+    image.image_url = image_url
+    image.save!
   end
 end
 
