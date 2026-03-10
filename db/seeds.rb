@@ -15,57 +15,73 @@ themes_data = [
   {
     title: "Городские пейзажи",
     description: "Фотографии архитектуры и городской среды.",
-    keyword: "city"
+    folder: "city"
   },
   {
     title: "Природа и ландшафты",
     description: "Горы, леса, озёра и другие природные мотивы.",
-    keyword: "nature"
+    folder: "nature"
   },
   {
     title: "Технологии и гаджеты",
     description: "Современные устройства, рабочие места и интерфейсы.",
-    keyword: "technology"
+    folder: "technology"
   },
   {
     title: "Еда и напитки",
     description: "Кулинарные фотографии, блюда и ингредиенты.",
-    keyword: "food"
+    folder: "food"
   },
   {
     title: "Животные",
     description: "Домашние и дикие животные.",
-    keyword: "animal"
+    folder: "animal"
   }
 ]
 
-images_per_theme = 25 # 5 тем * 25 изображений = 125 изображений
-
-themes_data.each_with_index do |theme_data, theme_index|
+themes_data.each do |theme_data|
   theme = Theme.find_or_create_by!(title: theme_data[:title]) do |t|
     t.description = theme_data[:description]
   end
 
   puts "  Тема: #{theme.title}"
 
-  images_per_theme.times do |i|
-    # Используем ЛОКАЛЬНЫЕ файлы изображений из каталога public/images.
-    # Чтобы не хранить сотни разных файлов, мы переиспользуем ограниченный
-    # набор названий, например:
-    #   /images/city-1.jpg, /images/city-2.jpg, ... /images/city-5.jpg
-    #   /images/nature-1.jpg, ... и т.д.
-    #
-    # Вам достаточно положить по 5 файлов на тему в public/images,
-    # с указанными именами. В базе при этом будет 25 записей на тему.
-    image_number = theme_index * images_per_theme + i + 1
-    physical_index = (i % 5) + 1
-    image_url = "/images/#{theme_data[:keyword]}-#{physical_index}.webp"
+  folder_name = theme_data[:folder]
+  folder_path = Rails.root.join("public", "images", folder_name)
 
-    image = Image.find_or_initialize_by(
-      theme: theme,
-      title: "#{theme.title} ##{image_number}"
-    )
-    image.image_url = image_url
+  unless Dir.exist?(folder_path)
+    puts "    Папка #{folder_path} не найдена, пропускаем."
+    next
+  end
+
+  files = Dir.glob(folder_path.join("*.{jpg,jpeg,png,gif,webp}")).sort_by do |path|
+    # Сортировка по дате создания файла (если недоступно, по дате изменения).
+    begin
+      File.birthtime(path)
+    rescue StandardError
+      File.mtime(path)
+    end
+  end
+
+  urls = files.map { |path| "/images/#{folder_name}/#{File.basename(path)}" }
+
+  # Удаляем изображения темы, для которых больше нет файлов в папке.
+  theme.images.where.not(image_url: urls).destroy_all
+
+  files.each_with_index do |path, index|
+    image_url = "/images/#{folder_name}/#{File.basename(path)}"
+    image = theme.images.find_or_initialize_by(image_url: image_url)
+    image.title = "#{theme.title} ##{index + 1}"
+
+    file_time =
+      begin
+        File.birthtime(path)
+      rescue StandardError
+        File.mtime(path)
+      end
+
+    image.created_at = file_time
+    image.updated_at = file_time
     image.save!
   end
 end

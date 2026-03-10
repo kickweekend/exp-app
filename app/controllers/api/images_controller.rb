@@ -5,7 +5,7 @@ module Api
 
     def index
       theme = Theme.find(params[:theme_id])
-      images = theme.images.order(:id)
+      images = theme.images.order(:created_at, :id)
 
       render json: {
         images: images.map { |image|

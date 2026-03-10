@@ -9,6 +9,6 @@ class ThemesController < ApplicationController
 
   def show
     @theme = Theme.find(params[:id])
-    @images = @theme.images.order(:id)
+    @images = @theme.images.order(:created_at, :id)
   end
 end
