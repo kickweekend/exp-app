@@ -1,0 +1,30 @@
+<h1 class="page-title"><%= t("profile.title") %></h1>
+<p class="page-subtitle"><%= t("profile.subtitle") %></p>
+
+<div class="cards">
+  <% @evaluations.each do |evaluation| %>
+    <% image = evaluation.image %>
+    <% theme = image.theme %>
+
+    <article class="card">
+      <h2 class="card__title"><%= image.title %></h2>
+      <p class="card__body">
+        <strong><%= t("profile.theme") %>:</strong>
+        <%= theme.title %>
+      </p>
+
+      <p class="card__body">
+        <strong><%= t("profile.your_score") %>:</strong>
+        <%= evaluation.score %>
+        <% if evaluation.comment.present? %>
+          — <%= evaluation.comment %>
+        <% end %>
+      </p>
+
+      <div class="card__actions">
+        <%= link_to t("profile.open_theme"), theme_path(theme), class: "btn btn--secondary" %>
+      </div>
+    </article>
+  <% end %>
+</div>
+
