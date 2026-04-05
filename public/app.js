@@ -21,6 +21,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const scoreInput = document.querySelector("[data-evaluation-score]");
   const commentInput = document.querySelector("[data-evaluation-comment]");
   const saveBtn = document.querySelector("[data-save-evaluation]");
+  const commentsListEl = document.querySelector("[data-comments-list]");
+  const commentsEmptyEl = document.querySelector("[data-comments-empty-msg]");
+
+  function renderComments(img) {
+    if (!commentsListEl || !commentsEmptyEl) return;
+    commentsListEl.replaceChildren();
+    const items = img.comments || [];
+    if (!items.length) {
+      commentsEmptyEl.hidden = false;
+      return;
+    }
+    commentsEmptyEl.hidden = true;
+    items.forEach((c) => {
+      const row = document.createElement("article");
+      row.className = "comment-bubble";
+      const head = document.createElement("div");
+      head.className = "comment-bubble__head";
+      const name = document.createElement("span");
+      name.className = "comment-bubble__name";
+      name.textContent = c.user_name;
+      const score = document.createElement("span");
+      score.className = "comment-bubble__score";
+      score.textContent = "★ " + c.score;
+      head.append(name, score);
+      const body = document.createElement("p");
+      body.className = "comment-bubble__text";
+      body.textContent = c.comment;
+      row.append(head, body);
+      commentsListEl.appendChild(row);
+    });
+  }
 
   function renderImage() {
     if (!images.length) return;
@@ -45,6 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
       scoreInput.value = v;
       scoreInput.setAttribute("aria-valuenow", v);
     }
+
+    if (commentInput) {
+      commentInput.value = img.user_comment != null ? img.user_comment : "";
+    }
+
+    renderComments(img);
   }
 
   function loadImages() {
@@ -93,6 +130,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (imageUserScoreEl && typeof data.user_score === "number") {
           imageUserScoreEl.textContent = data.user_score;
         }
+
+        const img = images[currentIndex];
+        if (typeof data.user_comment === "string") {
+          img.user_comment = data.user_comment;
+        }
+        if (Array.isArray(data.comments)) {
+          img.comments = data.comments;
+        }
+        renderComments(img);
 
         alert(imageContainer.dataset.savedMessage || "Оценка сохранена");
       })

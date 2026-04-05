@@ -9,10 +9,13 @@ module Api
       evaluation.assign_attributes(evaluation_params)
 
       if evaluation.save
+        image.reload
         render json: {
           status: "ok",
           average_score: image.average_score,
-          user_score: evaluation.score
+          user_score: evaluation.score,
+          user_comment: evaluation.comment.to_s,
+          comments: image.comments_for_public_feed
         }
       else
         render json: { status: "error", errors: evaluation.errors.full_messages }, status: :unprocessable_entity

@@ -12,6 +12,7 @@ ru:
     signed_up: "Регистрация прошла успешно."
     invalid_credentials: "Неверный e-mail или пароль."
     please_sign_in: "Пожалуйста, войдите в систему."
+    profile: "Профиль"
 
   profile:
     title: "Ваш профиль"
@@ -39,4 +40,8 @@ ru:
     your_score: "Ваша оценка"
     no_average: "Пока нет оценок"
     no_user_score: "Вы ещё не оценили"
+    comment_placeholder: "Напишите комментарий…"
+    comments_title: "Комментарии к этой картинке"
+    comments_sidebar: "Комментарии пользователей к текущему изображению"
+    comments_empty: "Пока нет комментариев. Напишите первый."
 

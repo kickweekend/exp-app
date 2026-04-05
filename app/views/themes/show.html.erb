@@ -9,71 +9,90 @@
   data-evaluation-endpoint-template="<%= api_image_evaluations_path(':image_id').gsub('%3Aimage_id', ':image_id') %>"
   data-saved-message="<%= t('evaluations.saved') %>"
 >
-  <div class="image-viewer__glass image-viewer__glass--main">
-    <div class="image-viewer__image">
-      <h2 class="image-viewer__title" data-image-title></h2>
-      <img class="image-viewer__img" data-image-tag src="" alt="" />
-    </div>
+  <div class="image-viewer__layout">
+    <div class="image-viewer__main-column">
+      <div class="image-viewer__glass image-viewer__glass--main">
+        <div class="image-viewer__image">
+          <h2 class="image-viewer__title" data-image-title></h2>
 
-    <div class="image-viewer__meta">
-      <div class="image-viewer__meta-item">
-        <span class="meta-label"><%= t("evaluations.average") %></span>
-        <span
-          class="meta-value"
-          data-image-average
-          data-empty="<%= t("evaluations.no_average") %>"
-        ></span>
-      </div>
-      <div class="image-viewer__meta-item">
-        <span class="meta-label"><%= t("evaluations.your_score") %></span>
-        <span
-          class="meta-value"
-          data-image-user-score
-          data-empty="<%= t("evaluations.no_user_score") %>"
-        ></span>
-      </div>
-    </div>
-  </div>
+          <%# Фиксированная область: картинки разного размера не меняют высоту страницы. %>
+          <div class="image-viewer__frame">
+            <img class="image-viewer__img" data-image-tag src="" alt="" />
+          </div>
+        </div>
 
-  <div class="image-viewer__glass image-viewer__glass--controls">
-    <div class="image-viewer__controls">
-      <button type="button" class="btn btn--ghost" data-prev-image>&laquo; <%= t("images.prev") %></button>
-      <button type="button" class="btn btn--ghost" data-next-image><%= t("images.next") %> &raquo;</button>
-    </div>
-
-    <div class="image-viewer__evaluation">
-      <h3><%= t("evaluations.title") %></h3>
-
-      <div class="score-scale">
-        <span class="meta-label"><%= t("evaluations.score") %></span>
-        <input
-          type="range"
-          class="score-scale__range"
-          min="1"
-          max="5"
-          step="1"
-          value="3"
-          data-evaluation-score
-          aria-valuemin="1"
-          aria-valuemax="5"
-          aria-valuenow="3"
-          aria-label="<%= t('evaluations.score') %>"
-        />
-        <div class="score-scale__ticks" aria-hidden="true">
-          <% (1..5).each do |n| %>
-            <span><%= n %></span>
-          <% end %>
+        <div class="image-viewer__meta">
+          <div class="image-viewer__meta-item">
+            <span class="meta-label"><%= t("evaluations.average") %></span>
+            <span
+              class="meta-value"
+              data-image-average
+              data-empty="<%= t("evaluations.no_average") %>"
+            ></span>
+          </div>
+          <div class="image-viewer__meta-item">
+            <span class="meta-label"><%= t("evaluations.your_score") %></span>
+            <span
+              class="meta-value"
+              data-image-user-score
+              data-empty="<%= t("evaluations.no_user_score") %>"
+            ></span>
+          </div>
         </div>
       </div>
 
-      <label>
-        <span class="meta-label"><%= t("evaluations.comment") %></span>
-        <textarea data-evaluation-comment rows="3"></textarea>
-      </label>
+      <div class="image-viewer__glass image-viewer__glass--controls">
+        <div class="image-viewer__controls">
+          <button type="button" class="btn btn--ghost" data-prev-image>&laquo; <%= t("images.prev") %></button>
+          <button type="button" class="btn btn--ghost" data-next-image><%= t("images.next") %> &raquo;</button>
+        </div>
 
-      <button type="button" class="btn btn--primary" data-save-evaluation>
-        <%= t("evaluations.save") %>
-      </button>
+        <div class="image-viewer__evaluation">
+          <h3><%= t("evaluations.title") %></h3>
+
+          <div class="score-scale">
+            <span class="meta-label"><%= t("evaluations.score") %></span>
+            <input
+              type="range"
+              class="score-scale__range"
+              min="1"
+              max="5"
+              step="1"
+              value="3"
+              data-evaluation-score
+              aria-valuemin="1"
+              aria-valuemax="5"
+              aria-valuenow="3"
+              aria-label="<%= t('evaluations.score') %>"
+            />
+            <div class="score-scale__ticks" aria-hidden="true">
+              <% (1..5).each do |n| %>
+                <span><%= n %></span>
+              <% end %>
+            </div>
+          </div>
+
+          <label class="image-viewer__comment-label">
+            <span class="meta-label"><%= t("evaluations.comment") %></span>
+            <textarea
+              class="image-viewer__comment-input"
+              data-evaluation-comment
+              rows="2"
+              placeholder="<%= t('evaluations.comment_placeholder') %>"
+            ></textarea>
+          </label>
+
+          <button type="button" class="btn btn--primary" data-save-evaluation>
+            <%= t("evaluations.save") %>
+          </button>
+        </div>
+      </div>
     </div>
+
+    <aside class="image-viewer__glass image-viewer__glass--sidebar" aria-label="<%= t('evaluations.comments_sidebar') %>">
+      <h3 class="comments-sidebar__title"><%= t("evaluations.comments_title") %></h3>
+      <p class="comments-sidebar__empty" data-comments-empty-msg hidden><%= t("evaluations.comments_empty") %></p>
+      <div class="comments-feed" data-comments-list></div>
+    </aside>
   </div>
 </section>

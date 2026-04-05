@@ -9,12 +9,15 @@ module Api
 
       render json: {
         images: images.map { |image|
+          mine = image.evaluations.find_by(user: current_user)
           {
             id: image.id,
             title: image.title,
             image_url: image.image_url,
             average_score: image.average_score,
-            user_score: image.evaluations.find_by(user: current_user)&.score
+            user_score: mine&.score,
+            user_comment: mine&.comment.to_s,
+            comments: image.comments_for_public_feed
           }
         }
       }

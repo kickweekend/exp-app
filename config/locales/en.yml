@@ -43,6 +43,7 @@ en:
     signed_up: "You have signed up successfully."
     invalid_credentials: "Invalid email or password."
     please_sign_in: "Please sign in to continue."
+    profile: "Profile"
 
   profile:
     title: "Your profile"
@@ -70,3 +71,7 @@ en:
     your_score: "Your score"
     no_average: "No ratings yet"
     no_user_score: "You have not rated yet"
+    comment_placeholder: "Write your thoughts…"
+    comments_title: "Comments on this image"
+    comments_sidebar: "User comments for the current image"
+    comments_empty: "No comments yet. Be the first to leave one."
