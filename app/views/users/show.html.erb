@@ -6,23 +6,33 @@
     <% image = evaluation.image %>
     <% theme = image.theme %>
 
-    <article class="card">
-      <h2 class="card__title"><%= image.title %></h2>
-      <p class="card__body">
-        <strong><%= t("profile.theme") %>:</strong>
-        <%= theme.title %>
-      </p>
+    <article class="card card--profile">
+      <%# Превью оценённого изображения (тот же URL, что и на странице темы). %>
+      <div class="card__media">
+        <%= image_tag image.image_url,
+              alt: image.title,
+              class: "card__image",
+              loading: "lazy" %>
+      </div>
 
-      <p class="card__body">
-        <strong><%= t("profile.your_score") %>:</strong>
-        <%= evaluation.score %>
-        <% if evaluation.comment.present? %>
-          — <%= evaluation.comment %>
-        <% end %>
-      </p>
+      <div class="card__content">
+        <h2 class="card__title"><%= image.title %></h2>
+        <p class="card__body">
+          <strong><%= t("profile.theme") %>:</strong>
+          <%= theme.title %>
+        </p>
 
-      <div class="card__actions">
-        <%= link_to t("profile.open_theme"), theme_path(theme), class: "btn btn--secondary" %>
+        <p class="card__body">
+          <strong><%= t("profile.your_score") %>:</strong>
+          <%= evaluation.score %>
+          <% if evaluation.comment.present? %>
+            — <%= evaluation.comment %>
+          <% end %>
+        </p>
+
+        <div class="card__actions">
+          <%= link_to t("profile.open_theme"), theme_path(theme), class: "btn btn--secondary" %>
+        </div>
       </div>
     </article>
   <% end %>

@@ -38,6 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (imageUserScoreEl) {
       imageUserScoreEl.textContent = img.user_score || imageUserScoreEl.dataset.empty;
     }
+
+    // Слайдер оценки: подставляем сохранённую оценку или значение по умолчанию.
+    if (scoreInput) {
+      const v = img.user_score != null ? String(img.user_score) : "3";
+      scoreInput.value = v;
+      scoreInput.setAttribute("aria-valuenow", v);
+    }
   }
 
   function loadImages() {
@@ -60,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function saveEvaluation() {
-    if (!images.length) return;
+    if (!images.length || !scoreInput) return;
     const img = images[currentIndex];
     const endpoint = evaluationEndpointTemplate.replace(":image_id", img.id);
 
@@ -72,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       body: JSON.stringify({
         evaluation: {
-          score: scoreInput.value,
+          score: parseInt(scoreInput.value, 10),
           comment: commentInput.value,
         },
       }),
@@ -93,6 +100,10 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error saving evaluation:", error);
       });
   }
+
+  scoreInput?.addEventListener("input", () => {
+    scoreInput.setAttribute("aria-valuenow", scoreInput.value);
+  });
 
   prevBtn?.addEventListener("click", () => changeImage(-1));
   nextBtn?.addEventListener("click", () => changeImage(1));
