@@ -1,6 +1,37 @@
 <h1 class="page-title"><%= t("profile.title") %></h1>
 <p class="page-subtitle"><%= t("profile.subtitle") %></p>
 
+<section class="profile-stats card">
+  <div class="profile-stats__header">
+    <h2 class="card__title"><%= t("statistics.title") %></h2>
+    <%= link_to t("statistics.download_csv"), profile_path(format: :csv), class: "btn btn--primary" %>
+  </div>
+
+  <div class="stats-table-wrap">
+    <table class="stats-table">
+      <thead>
+        <tr>
+          <th><%= t("statistics.image") %></th>
+          <th><%= t("statistics.average_score") %></th>
+          <th><%= t("statistics.evaluations_count") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @image_statistics.each do |stat| %>
+          <tr>
+            <td class="stats-table__image-cell">
+              <%= image_tag stat.image_url, alt: stat.title, class: "stats-table__thumb", loading: "lazy" %>
+              <span><%= stat.title %></span>
+            </td>
+            <td><%= stat.average_score.to_f.round(2) %></td>
+            <td><%= stat.evaluations_count.to_i %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <div class="cards">
   <% @evaluations.each do |evaluation| %>
     <% image = evaluation.image %>

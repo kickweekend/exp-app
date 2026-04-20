@@ -21,6 +21,13 @@ ru:
     your_score: "Ваша оценка"
     open_theme: "Открыть тему"
 
+  statistics:
+    title: "Статистика по всем изображениям"
+    image: "Изображение"
+    average_score: "Средняя оценка"
+    evaluations_count: "Количество оценок"
+    download_csv: "Выгрузить CSV"
+
   themes:
     index:
       title: "Доступные темы"

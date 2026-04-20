@@ -52,6 +52,13 @@ en:
     your_score: "Your score"
     open_theme: "Open theme"
 
+  statistics:
+    title: "Statistics for all images"
+    image: "Image"
+    average_score: "Average score"
+    evaluations_count: "Number of ratings"
+    download_csv: "Download CSV"
+
   themes:
     index:
       title: "Available themes"
