@@ -23,8 +23,8 @@ themes_data = [
     folder: "nature"
   },
   {
-    title: "Технологии",
-    description: "Различные устройства и технологии",
+    title: "Технологии и гаджеты",
+    description: "Различные устройства и современные технологии.",
     folder: "technology"
   },
   {
@@ -40,6 +40,18 @@ themes_data = [
 ]
 
 themes_data.each do |theme_data|
+  # Нормализуем старое название темы, чтобы не создавать дубликаты.
+  if theme_data[:folder] == "technology"
+    legacy_theme = Theme.find_by(title: "Технологии")
+    canonical_theme = Theme.find_by(title: "Технологии и гаджеты")
+    if legacy_theme && canonical_theme && legacy_theme.id != canonical_theme.id
+      legacy_theme.images.update_all(theme_id: canonical_theme.id)
+      legacy_theme.destroy!
+    elsif legacy_theme && canonical_theme.nil?
+      legacy_theme.update!(title: "Технологии и гаджеты")
+    end
+  end
+
   theme = Theme.find_or_create_by!(title: theme_data[:title]) do |t|
     t.description = theme_data[:description]
   end
