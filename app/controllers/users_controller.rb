@@ -1,5 +1,3 @@
-require "csv"
-
 class UsersController < ApplicationController
   # Профиль пользователя: список всех оценённых им изображений.
   before_action :authenticate_user!
@@ -31,21 +29,27 @@ class UsersController < ApplicationController
   end
 
   def statistics_csv
-    CSV.generate(headers: true) do |csv|
-      csv << [
-        I18n.t("statistics.image"),
-        I18n.t("statistics.average_score"),
-        I18n.t("statistics.evaluations_count")
-      ]
+    rows = []
+    rows << [
+      I18n.t("statistics.image"),
+      I18n.t("statistics.average_score"),
+      I18n.t("statistics.evaluations_count")
+    ]
 
-      @image_statistics.each do |stat|
-        csv << [
-          stat.title,
-          stat.average_score.to_f.round(2),
-          stat.evaluations_count.to_i
-        ]
-      end
+    @image_statistics.each do |stat|
+      rows << [
+        stat.title,
+        stat.average_score.to_f.round(2),
+        stat.evaluations_count.to_i
+      ]
     end
+
+    rows.map { |row| row.map { |cell| csv_escape(cell) }.join(",") }.join("\n")
+  end
+
+  def csv_escape(value)
+    escaped = value.to_s.gsub('"', '""')
+    %("#{escaped}")
   end
 end
 
