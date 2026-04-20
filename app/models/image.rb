@@ -23,6 +23,7 @@ class Image < ApplicationRecord
 
         {
           user_name: evaluation.user.name,
+          avatar_url: evaluation.user.gravatar_url(size: 44),
           comment: evaluation.comment.to_s.strip,
           score: evaluation.score
         }

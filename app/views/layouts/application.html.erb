@@ -33,7 +33,10 @@
 
         <% if user_signed_in? %>
           <%= link_to t("auth.profile"), profile_path, class: "navbar__link" %>
-          <span class="navbar__user"><%= current_user.name %></span>
+          <span class="navbar__identity">
+            <%= image_tag current_user.gravatar_url(size: 34), alt: current_user.name, class: "navbar__avatar" %>
+            <span class="navbar__user"><%= current_user.name %></span>
+          </span>
           <%= button_to t("auth.sign_out"), session_path, method: :delete, class: "navbar__logout" %>
         <% else %>
           <%= link_to t("auth.sign_in"), new_session_path, class: "navbar__link" %>
