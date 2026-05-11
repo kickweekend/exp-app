@@ -12,7 +12,8 @@ class Image < ApplicationRecord
     evaluations.average(:score)&.to_f
   end
 
-  # Комментарии пользователей для боковой панели и API (только непустой текст).
+
+
   def comments_for_public_feed(limit: 80)
     evaluations
       .includes(:user)
